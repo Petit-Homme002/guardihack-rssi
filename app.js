@@ -1,4 +1,21 @@
 'use strict';
+
+// Dissuasion uniquement : ces contrôles ne sécurisent pas le code côté navigateur.
+document.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+  toast('Le menu du clic droit est désactivé sur cette démo.');
+}, { capture: true });
+document.addEventListener('keydown', (event) => {
+  const key = event.key.toLowerCase();
+  const windowsTools = event.ctrlKey && event.shiftKey && ['i', 'j', 'c', 'k'].includes(key);
+  const macTools = event.metaKey && event.altKey && ['i', 'j', 'c', 'k', 'u'].includes(key);
+  const viewSource = (event.ctrlKey || event.metaKey) && key === 'u';
+  if (key === 'f12' || windowsTools || macTools || viewSource) {
+    event.preventDefault();
+    toast('Ce raccourci est désactivé sur cette démo.');
+  }
+}, { capture: true });
+
 // Original fictional training content; no connection to the reference services.
 const option=(text,points,impact,cost,explanation)=>({text,points,impact,cost,explanation});
 const missions=[
